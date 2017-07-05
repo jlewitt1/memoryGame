@@ -3,11 +3,11 @@ var body = document.getElementsByTagName("body")[0];
 var memory_board = document.getElementById("memory_board");
 
 var numCols = 6; 
-var numRows = 4;
+var numRows = 3;
 var totalMatches;
 
-var cards = ['shakshuka', 'shwarma', 'falafel', 'schnitzel', 'goldstar', 'sabich', 'maccabi','hummus','eggplant','beach','deadSea','hermon',
-			 'shakshuka', 'shwarma', 'falafel', 'schnitzel', 'goldstar', 'sabich', 'maccabi','hummus','eggplant','beach','deadSea','hermon'];
+var cards = ['shakshuka', 'shwarma', 'falafel', 'schnitzel', 'goldstar', 'sabich', 'maccabi','hummus','eggplant',
+			 'shakshuka', 'shwarma', 'falafel', 'schnitzel', 'goldstar', 'sabich', 'maccabi','hummus','eggplant'];
 
 var DOMcards = document.getElementsByClassName("card");
 
@@ -21,8 +21,8 @@ function gameStart () {
 	setAttributes();
 }
 
-function shuffleCards (array) {  //randomly place each card on the grid
-	for (var i = array.length - 1; i > 0; i--) { //randomly shuffle the cards array
+function shuffleCards (array) {  //randomly place each card in the memory board
+	for (var i = array.length - 1; i > 0; i--) { //randomly shuffle the array
           var j = Math.floor(Math.random() * (i + 1));
           var temp = array[i];
           array[i] = array[j];
@@ -38,9 +38,12 @@ function createCards() { //create the memory board
 		memory_board.appendChild(row);
 
 		for (var j=0; j<numCols; j++){ //create the cards
+		 var cardContainer = document.createElement("div");
+		 cardContainer.className = "col-md-2 col-sm-4 col-xs-6"; //add bootstrap for responsiveness
 		 var card = document.createElement("div");
-		 card.className="card col-md-3"; //add bootstrap for responsiveness
-		 row.appendChild(card);
+		 card.className = "card"; 
+		 row.appendChild(cardContainer);
+		 cardContainer.appendChild(card);
 		 card.addEventListener('click',changeBackground);
 		}
 	}
@@ -55,28 +58,31 @@ function setAttributes() { //setting name of each element in cards array
 
 var tempArray = []; //used to store cards that user clicks on
 
-function changeBackground(event) {  //change image from temp image 
-	var name = 	event.target.getAttribute("data-name");
-	var id = event.target;
-	event.target.style.backgroundImage = 'url(images/' + name + '.jpg)';
-	event.target.style.pointerEvents = 'none';
-	tempArray.push(name);
-	tempArray.push(id);
-	finalCheck(); 
+function changeBackground(event) {  //change image from temp image
+	if (tempArray.length < 4){
+		var name = 	event.target.getAttribute("data-name");
+		var id = event.target;
+		event.target.style.backgroundImage = 'url(images/' + name + '.jpg)';
+		event.target.style.pointerEvents = 'none';
+		tempArray.push(name);
+		tempArray.push(id);
+		finalCheck();
+	}
 }
 
 function finalCheck () { //determine whether there is a match
-	if (tempArray.length == 4) { 
+	if (tempArray.length == 4) {
 			if (tempArray[0] == tempArray[2]) {  //if there is a match
 				tempArray=[];
 				totalMatches--;
-				console.log(totalMatches);
+				//console.log(totalMatches);
 				checkGameOver();
 			} else {  //if there is no match 
 				setTimeout(function() { //set lag time after clicking on two pictures that don't match
 					changeImageBack();
 					tempArray=[];
-				}, 1200)			
+
+				}, 1200)	
 			}		
 	} 
 }
@@ -88,7 +94,7 @@ function changeImageBack () { //after clicking switch back to temp image
 
 function checkGameOver () { //if game is over prompt user to start a new one
 	if (totalMatches == 0) { 
-		alert("Congratulations you won!");
+		setTimeout(function(){alert("Congratulations you won!")},100);
 		newGamePrompt();
 	}
 }
@@ -96,7 +102,7 @@ function checkGameOver () { //if game is over prompt user to start a new one
 function newGamePrompt () { //after previous game is finished show button to allow new game on click
 	var newGame = document.createElement("button");
 	newGame.innerHTML = "New Game!";
-	memory_board.appendChild(newGame);
+	body.appendChild(newGame);
 	newGame.addEventListener('click',gameStart);
 }
 
