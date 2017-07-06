@@ -17,11 +17,14 @@ var DOMcards = document.getElementsByClassName("card");
 gameStart();
 
 function gameStart () { 
-	body.style.backgroundImage= "";
+	//body.style.backgroundImage= "";
+	body.style.backgroundImage = 'url(images/pattern.jpg)';
+	body.style.backgroundRepeat = 'no-repeat';
+	body.style.backgroundSize = 'cover';
 	memory_board.innerHTML = ''; //re-set the board to allow for multiple games
 	totalMatches = ((numCols * numRows) / 2);
 	numClicks=0;
-	newGame.innerHTML = "";
+	//newGame.innerHTML = "";
 	results.innerHTML = "";
 	shuffleCards(cards);
 	createCards();
@@ -107,7 +110,10 @@ function checkGameOver () { //if game is over prompt user to start a new one
 
 function newGamePrompt () { //after previous game is finished show button to allow new game on click
 	body.style.backgroundImage = 'url("https://media.giphy.com/media/26tOZ42Mg6pbTUPHW/giphy.gif")';
+	body.style.backgroundRepeat = 'no-repeat';
+	body.style.backgroundSize = 'cover';
 	newGame.innerHTML = "New Game!";
+	newGame.style.display = 'block';
 	body.appendChild(newGame);
 	results.innerHTML = "Number of guesses: " + (numClicks/2);
 	body.appendChild(results);
