@@ -62,7 +62,7 @@ function createCards() { //create the memory board
 function setAttributes() { //setting name of each element in cards array
 	for (var i=0; i<cards.length;i++) { 
 		DOMcards[i].setAttribute('data-name',cards[i]);
-		DOMcards[i].innerHTML = DOMcards[i].getAttribute('data-name'); //-->see answers if don't want to guess
+		//DOMcards[i].innerHTML = DOMcards[i].getAttribute('data-name'); //-->see answers if don't want to guess
 	}
 }
 
